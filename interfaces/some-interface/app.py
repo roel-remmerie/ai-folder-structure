@@ -1,0 +1,1 @@
+print("I'm some interface")

@@ -1,0 +1,42 @@
+name: template
+
+x-standard-healthcheck: &standard-healthcheck
+  healthcheck:
+    test: ["CMD", "curl", "-f", "http://localhost:8000/health"] # 8000 because healthcheck is performed within the container
+    interval: 5m
+    start_interval: 1s
+    start_period: 30s
+    timeout: 5s
+    retries: 5
+
+services:
+  main-agent:
+    container_name: main-agent-api
+    build: ./apis/main-agent
+    ports:
+      - "8001:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    <<: *standard-healthcheck
+    networks:
+      - chatbot-network
+  sub-agent:
+    container_name: sub-agent-api
+    build: ./apis/sub-agent
+    ports:
+      - "8002:8000"
+    environment:
+      - PYTHONUNBUFFERED=1
+    <<: *standard-healthcheck
+    networks:
+      - chatbot-network
+  another-interface:
+    container_name: another-interface
+    build: ./interfaces/another-interface
+  some-interface:
+    container_name: some-interface
+    build: ./interfaces/some-interface
+
+networks:
+  chatbot-network:
+    driver: bridge
