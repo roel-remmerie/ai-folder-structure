@@ -21,9 +21,6 @@ services:
       - qdrant_storage:/qdrant/storage
     environment:
       QDRANT__SERVICE__GRPC_PORT: 6334
-
-volumes:
-  qdrant_storage:
   main-agent:
     container_name: main-agent-api
     build: ./apis/main-agent
@@ -54,3 +51,6 @@ volumes:
 networks:
   chatbot-network:
     driver: bridge
+
+volumes:
+  qdrant_storage:
