@@ -8,4 +8,6 @@ RUN pip install --no-cache-dir --upgrade -r requirements.txt
 
 COPY . .
 
-CMD ["fastapi", "run", "app.py"]
+ENTRYPOINT [ "python", "quickstart.py" ]
+
+CMD ["python", "app.py"]
